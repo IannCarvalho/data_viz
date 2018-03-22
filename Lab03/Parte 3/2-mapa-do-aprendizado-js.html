@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.cidades {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+}
+
+</style>
+
+<svg width="1000" height="600"></svg>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script src="legenda-d3-cor.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var path = d3.geoPath();
+
+// a escala de cores
+var color = d3.scaleThreshold().domain([-30, -15, 0, 15, 30]).range(d3.schemeRdGy[6])
+
+// função aux definida em legenda-d3-cor.js
+desenhaLegenda(-45, 45, color, "Crescimento entre 2011 e 2013 (pp*)")
+
+d3.queue()
+    .defer(d3.json, "geo4-municipios-e-aprendizado-simplificado.json")
+    .await(ready);
+
+function ready(error, dados) {
+  if (error) throw error;
+
+  var cidades = dados.features;
+
+  svg.append("g")
+      .attr("class", "cidades")
+    .selectAll("path")
+    .data(cidades)
+    .enter()
+    .append("path")
+      .attr("fill", d => {let valor = d.properties["Crescimento entre 2011 e 2013 (pp*)"]; return valor === "NA" ? '#e0e0eb' : color(valor)})
+      .attr("d", path)
+    .append("title")
+      .text(d => d.properties.Cidade + ": " + d.properties["Crescimento entre 2011 e 2013 (pp*)"] + "%");
+}
+
+</script>

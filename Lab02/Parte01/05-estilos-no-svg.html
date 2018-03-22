@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Definindo estilos</title>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <style>
+          .sol {
+            fill: yellow;
+            stroke: orange;
+            stroke-width: 6;
+          }
+          .grama{
+            fill: green;
+          }
+          .ceu{
+            fill:rgb(0, 195, 255);
+          }
+        </style>
+    </head>
+    <body>
+        <svg width="250" height="150">
+            <rect width="250" height="150" class="ceu"></rect>
+            <rect rect y="120" width="250" height="30" class="grama"></rect>
+            <circle cy="50" cx="86" r="30" class="sol" />
+        </svg>
+    </body>
+</html>

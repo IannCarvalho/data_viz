@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<!--
+	Directive by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>My top 50</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div id="header">
+        <span class="logo icon fa-spotify"></span>
+        <h1>My top 50</h1>
+    </div>
+
+    <!-- Main -->
+    <div id="main">
+        <div class="box container">
+            <svg width="930" height="630">
+                <defs>
+                    <filter id="greyscale">
+                        <feColorMatrix type="matrix" values="0 1 0 0 0
+                  0 1 0 0 0
+                  0 1 0 0 0
+                  0 1 0 1 0 ">
+                        </feColorMatrix>
+                    </filter>
+                </defs>
+            </svg>
+            <section>
+                <p>A rede acima foi criada a partir dos dados do spotify. Através da visualização e dos grupos separados, pode-se
+                    observar uma grande variedade de estilos musicais, dos quais estão inclusos predominantemente: metal,
+                    pop, MPB, indie, alternativo e rock.
+                </p>
+                <p>Além disso, também é perceptível que existem artistas que estão ligando os grupos, bons exemplos disso são:
+                    Fiona Apple, Arctic Monkeys, The Killers, Deftones, Interpol e The Last Shadow Puppets.
+                </p>
+                <p>Para gerar esse grafo, foi usada uma lógica de remoção os estilos musicais muito gênericos e pouco representativos.
+                    Não obstante, foram exluidos também estilos musicas diferentes que ligavam os mesmos nós e nós que estavam
+                    sozinhos.
+                </p>
+            </section>
+        </div>
+
+
+    </div>
+
+    <!-- Footer -->
+    <div id="footer">
+        <div class="container 75%">
+
+            <ul class="icons">
+                <li>
+                    <a href="https://github.com/ss1993/my-spotify-top50" class="icon fa-github">
+                        <span class="label">Github</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="copyright">
+                <li>&copy; Untitled. All rights reserved.</li>
+                <li>Design:
+                    <a href="http://html5up.net">HTML5 UP</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="assets/js/main.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
+    <script src="scripts/music_graph.js"></script>
+
+</body>
+
+</html>

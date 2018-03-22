@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>Barras simples</title>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container" id="container1">
+    <div class="myVis1" id="vis1"></div>
+  </div>
+
+  <div class="container">
+    <button class="btn-default" id="geral">
+      Juntar Gêneros
+    </button>
+    <button class="btn-default" id="genero">
+      Dividir Gêneros
+    </button>
+  </div>
+
+  <style>
+    body {
+      font: 10px sans-serif;
+    }
+
+    .barMas {
+      fill: rgb(189, 255, 89);
+    }
+
+    .barFem {
+      fill: rgb(255, 151, 246);
+    }
+
+    .barGer {
+      fill: rgb(253, 255, 151);
+    }
+
+    div.tooltip {
+      position: absolute;
+      margin-top: 40px;
+      text-align: center;
+      width: 100px;
+      height: 30px;
+      padding: 10px;
+      font: 12px sans-serif;
+      background: lightsteelblue;
+      border: 0px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+  </style>
+
+  <script>
+
+    var alturaSVG = 350, larguraSVG = 800;
+    var margin = { top: 10, right: 20, bottom: 30, left: 45 },
+      larguraVis = larguraSVG - margin.left - margin.right,
+      alturaVis = alturaSVG - margin.top - margin.bottom;
+
+
+    function desenhaBarrasGenero(dados) {
+      var grafico = d3.select('#vis1')
+        .append('svg')
+        .attr('width', larguraVis + margin.left + margin.right)
+        .attr('height', alturaVis + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      var x = d3.scaleBand()
+        .padding(.1)
+        .domain(dados.map((d) => d.horario_inicial))
+        .range([0, 750]);
+
+      var y = d3.scaleLinear()
+        .domain([0, 550])
+        .rangeRound([310, 0])
+
+      var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      grafico.selectAll('g')
+        .data(dados)
+        .enter()
+        .append('rect')
+        .attr("class", "barMas")
+        .attr('x', d => x(d.horario_inicial))
+        .attr('width', x.bandwidth() / 2)
+        .attr('y', d => y(d.homens_ciclistas))
+        .attr('height', (d) => alturaVis - y(d.homens_ciclistas))
+        .on("mouseover", function (dado, i) {
+          d3.selectAll(".barMas")
+            .style("opacity", d => d === dados[i] ? "1" : "0.1")
+          d3.selectAll(".barFem")
+            .style("opacity", d => d === dados[i] ? "1" : "0.1")
+        })
+        .on("mouseout", function (dado, i) {
+          d3.selectAll(".barMas")
+            .style("opacity", "1");
+          d3.selectAll(".barFem")
+            .style("opacity", "1"); div.transition()
+              .duration(500)
+              .style("opacity", 0);
+        })
+        .on("click", function (d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html(d.homens_ciclistas + " homens ciclistas")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        });
+
+      grafico.selectAll('g')
+        .data(dados)
+        .enter()
+        .append('rect')
+        .attr("class", "barMas")
+        .attr('x', d => x(d.horario_inicial) + 25)
+        .attr('width', x.bandwidth() / 2)
+        .attr('y', d => y(d.homens_pedestres))
+        .attr('height', (d) => alturaVis - y(d.homens_pedestres))
+        .on("mouseover", function (dado, i) {
+          d3.selectAll(".barMas")
+            .style("opacity", d => d === dados[i] ? "1" : "0.1")
+          d3.selectAll(".barFem")
+            .style("opacity", d => d === dados[i] ? "1" : "0.1")
+        })
+        .on("mouseout", function (dado, i) {
+          d3.selectAll(".barMas")
+            .style("opacity", "1");
+          d3.selectAll(".barFem")
+            .style("opacity", "1"); div.transition()
+              .duration(500)
+              .style("opacity", 0);
+        })
+        .on("click", function (d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html(d.homens_pedestres + " homens pedestres")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        });
+
+      grafico.selectAll('g')
+        .data(dados)
+        .enter()
+        .append('rect')
+        .attr("class", "barFem")
+        .attr('x', d => x(d.horario_inicial) + 25)
+        .attr('width', x.bandwidth() / 2)
+        .attr('y', d => y(d.mulheres_pedestres))
+        .attr('height', (d) => alturaVis - y(d.mulheres_pedestres))
+        .on("mouseover", function (dado, i) {
+          d3.selectAll(".barMas")
+            .style("opacity", d => d === dados[i] ? "1" : "0.1")
+          d3.selectAll(".barFem")
+            .style("opacity", d => d === dados[i] ? "1" : "0.1")
+        })
+        .on("mouseout", function (dado, i) {
+          d3.selectAll(".barMas")
+            .style("opacity", "1");
+          d3.selectAll(".barFem")
+            .style("opacity", "1");
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        })
+        .on("click", function (d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html(d.mulheres_pedestres + " mulheres pedestres")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        })
+
+      grafico.selectAll('g')
+        .data(dados)
+        .enter()
+        .append('rect')
+        .attr("class", "barFem")
+        .attr('x', d => x(d.horario_inicial))
+        .attr('width', x.bandwidth() / 2)
+        .attr('y', d => y(d.mulheres_ciclistas))
+        .attr('height', (d) => alturaVis - y(d.mulheres_ciclistas))
+        .on("mouseover", function (dado, i) {
+          d3.selectAll(".barMas")
+            .style("opacity", d => d === dados[i] ? "1" : "0.1")
+          d3.selectAll(".barFem")
+            .style("opacity", d => d === dados[i] ? "1" : "0.1")
+        })
+        .on("mouseout", function (dado, i) {
+          d3.selectAll(".barMas")
+            .style("opacity", "1");
+          d3.selectAll(".barFem")
+            .style("opacity", "1");
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        })
+        .on("click", function (d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html(d.mulheres_ciclistas + " mulheres ciclistas")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        });
+
+      grafico.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + alturaVis + ")")
+        .call(d3.axisBottom(x));
+
+      grafico.append('g')
+        .attr('transform', 'translate(0,0)')
+        .call(d3.axisLeft(y));
+
+      grafico.append("text")
+        .attr("transform", "translate(-30," + (alturaVis + margin.top) / 2 + ") rotate(-90)")
+    }
+
+    function desenhaBarrasTotal(dados) {
+      var grafico = d3.select('#vis1')
+        .append('svg')
+        .attr('width', larguraVis + margin.left + margin.right)
+        .attr('height', alturaVis + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      var x = d3.scaleBand()
+        .padding(.1)
+        .domain(dados.map((d) => d.horario_inicial))
+        .range([0, 750]);
+
+      var y = d3.scaleLinear()
+        .domain([0, 550])
+        .rangeRound([310, 0])
+
+      var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      grafico.selectAll('g')
+        .data(dados)
+        .enter()
+        .append('rect')
+        .attr("class", "barGer")
+        .attr('x', d => x(d.horario_inicial))
+        .attr('width', x.bandwidth() / 2)
+        .attr('y', d => y(d.total_ciclistas))
+        .attr('height', (d) => alturaVis - y(d.total_ciclistas))
+        .on("mouseover", function (dado, i) {
+          d3.selectAll(".barGer")
+            .style("opacity", d => d === dados[i] ? "1" : "0.2")
+        })
+        .on("mouseout", function (dado, i) {
+          d3.selectAll(".barGer")
+            .style("opacity", "1");
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        })
+        .on("click", function (d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html(d.total_ciclistas + " ciclistas")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        });
+
+      grafico.selectAll('g')
+        .data(dados)
+        .enter()
+        .append('rect')
+        .attr("class", "barGer")
+        .attr('x', d => x(d.horario_inicial) + 25)
+        .attr('width', x.bandwidth() / 2)
+        .attr('y', d => y(d.total_pedestres))
+        .attr('height', (d) => alturaVis - y(d.total_pedestres))
+        .on("mouseover", function (dado, i) {
+          d3.selectAll(".barGer")
+            .style("opacity", d => d === dados[i] ? "1" : "0.2")
+        })
+        .on("mouseout", function (dado, i) {
+          d3.selectAll(".barGer")
+            .style("opacity", "1");
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        })
+        .on("click", function (d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html(d.total_ciclistas + " ciclistas")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        });
+
+      grafico.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + alturaVis + ")")
+        .call(d3.axisBottom(x));
+
+      grafico.append('g')
+        .attr('transform', 'translate(0,0)')
+        .call(d3.axisLeft(y));
+
+      grafico.append("text")
+        .attr("transform", "translate(-30," + (alturaVis + margin.top) / 2 + ") rotate(-90)")
+    }
+
+
+
+    d3.csv('result2.csv', function (dados) {
+      desenhaBarrasTotal(dados);
+      d3.select("#geral").on("click", function (d) {
+        remove();
+        desenhaBarrasTotal(dados);
+      });
+      d3.select("#genero").on("click", function (d) {
+        remove();
+        desenhaBarrasGenero(dados);
+      });
+    });
+
+    function remove() {
+      d3.select("#vis1").remove();
+      d3.select("#container1").append("svg")
+        .attr("id", "vis1")
+        .attr("height", "350")
+        .attr("width", "800");
+    }
+
+  </script>
+
+</body>
+
+</html>
